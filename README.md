@@ -8,7 +8,7 @@
 
 > **🎯 BETA RELEASE** - Feature-complete with enhanced automation and workflow capabilities
 
-Acelo is an AI-powered revenue operations platform that combines intelligent prompts, automated workflows, centralized asset management, and AI coaching to accelerate sales and marketing processes. Built with modern React architecture and comprehensive testing infrastructure for rapid, reliable development.
+Acelo is an AI-powered revenue operations platform that combines intelligent prompts, automated workflows, centralised asset management, and AI coaching to accelerate sales and marketing processes. Built with modern React architecture and comprehensive testing infrastructure for rapid, reliable development.
 
 ---
 
@@ -22,19 +22,19 @@ Acelo is an AI-powered revenue operations platform that combines intelligent pro
 
 ### 🧩 **Context Hub**
 - Reusable context library for consistent AI interactions
-- Organizational knowledge base with 10 predefined categories
-- Context management and organization
+- Organisational knowledge base with 10 predefined categories
+- Context management and organisation
 - Smart context integration with prompts
 
 ### 📁 **Asset Hub**
 - Secure file storage using Supabase Storage
 - Document upload and management
-- File organization and search capabilities
+- File organisation and search capabilities
 - Integration with popular file formats
 
 ### 🎓 **Coach Hub**
 - AI-powered coaching system
-- Specialized coaches for different business functions
+- Specialised coaches for different business functions
 - Voice-enabled coaching interactions
 - Performance tracking and recommendations
 
@@ -49,7 +49,7 @@ Acelo is an AI-powered revenue operations platform that combines intelligent pro
 
 ## 🛠️ **Technology Stack**
 
-Acelo is built with a modern, scalable technology stack optimized for performance and developer experience.
+Acelo is built with a modern, scalable technology stack optimised for performance and developer experience.
 
 | Category | Technology | Purpose |
 |----------|------------|----------|
@@ -167,7 +167,7 @@ npm run build
 
 ```
 src/
-├── components/          # UI components organized by feature
+├── components/          # UI components organised by feature
 ├── hooks/              # Custom React hooks for business logic
 ├── pages/              # Page components
 ├── context/            # React context providers
@@ -189,7 +189,7 @@ docs/
 
 ## 🚀 **Deployment**
 
-Acelo is optimized for deployment on Vercel with Supabase backend:
+Acelo is optimised for deployment on Vercel with Supabase backend:
 
 1. **Production**: Automatic deployment from `main` branch
 2. **Staging**: Preview deployments for all pull requests
