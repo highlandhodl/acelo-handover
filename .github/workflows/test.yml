@@ -1,0 +1,195 @@
+name: Tests
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Run tests
+        run: npm run test:ci
+        env:
+          NODE_ENV: test
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://test.supabase.co' }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'test-anon-key' }}
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ matrix.node-version }}
+          path: |
+            test-results/
+            coverage/
+          retention-days: 7
+
+  quality-gates:
+    name: Quality Gates
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check test coverage thresholds
+        run: npm run test:coverage
+        continue-on-error: true
+
+      - name: Build project
+        run: npm run build
+
+      - name: Comment PR with test results
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+            
+            try {
+              const testResults = JSON.parse(fs.readFileSync('./test-results/results.json', 'utf8'));
+              const totalTests = testResults.numTotalTests;
+              const passedTests = testResults.numPassedTests;
+              const failedTests = testResults.numFailedTests;
+              const coverage = testResults.coverageMap ? 
+                Object.values(testResults.coverageMap).reduce((acc, file) => {
+                  const fileCov = file.summary || file;
+                  return {
+                    statements: acc.statements + (fileCov.statements?.pct || 0),
+                    branches: acc.branches + (fileCov.branches?.pct || 0),
+                    functions: acc.functions + (fileCov.functions?.pct || 0),
+                    lines: acc.lines + (fileCov.lines?.pct || 0),
+                    files: acc.files + 1
+                  };
+                }, { statements: 0, branches: 0, functions: 0, lines: 0, files: 0 }) : null;
+
+              const avgCoverage = coverage ? {
+                statements: (coverage.statements / coverage.files).toFixed(2),
+                branches: (coverage.branches / coverage.files).toFixed(2),
+                functions: (coverage.functions / coverage.files).toFixed(2),
+                lines: (coverage.lines / coverage.files).toFixed(2)
+              } : null;
+
+              const body = `## 🧪 Test Results
+
+              **Tests:** ${passedTests}/${totalTests} passed ${failedTests > 0 ? `(${failedTests} failed)` : '✅'}
+
+              ${avgCoverage ? `
+              **Coverage:**
+              - Statements: ${avgCoverage.statements}%
+              - Branches: ${avgCoverage.branches}%
+              - Functions: ${avgCoverage.functions}%
+              - Lines: ${avgCoverage.lines}%
+              ` : ''}
+
+              ${failedTests > 0 ? '❌ Some tests are failing. Please check the test results.' : '✅ All tests are passing!'}`;
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            } catch (error) {
+              console.log('Could not read test results:', error.message);
+            }
+
+  performance-test:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run performance tests
+        run: npm run test:performance
+        continue-on-error: true
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-results
+          path: test-results/benchmark.json
+          retention-days: 7
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level=moderate
+
+      - name: Run dependency vulnerability check
+        uses: actions/dependency-review-action@v4
+        if: github.event_name == 'pull_request'

@@ -1,0 +1,146 @@
+{
+  "version": "1.0.0",
+  "security": {
+    "headers": {
+      "enforceHttps": true,
+      "hsts": {
+        "maxAge": 63072000,
+        "includeSubDomains": true,
+        "preload": true
+      },
+      "contentTypeOptions": "nosniff",
+      "frameOptions": "DENY",
+      "xssProtection": "1; mode=block",
+      "referrerPolicy": "strict-origin-when-cross-origin"
+    },
+    "csp": {
+      "directives": {
+        "default-src": ["'self'"],
+        "script-src": [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https://vercel.live",
+          "https://vercel.com"
+        ],
+        "style-src": [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com"
+        ],
+        "font-src": [
+          "'self'",
+          "https://fonts.gstatic.com"
+        ],
+        "img-src": [
+          "'self'",
+          "data:",
+          "https:",
+          "blob:"
+        ],
+        "connect-src": [
+          "'self'",
+          "https://*.supabase.co",
+          "https://api.openai.com",
+          "https://vercel.live",
+          "wss://*.supabase.co"
+        ],
+        "worker-src": [
+          "'self'",
+          "blob:"
+        ],
+        "frame-src": ["'none'"],
+        "object-src": ["'none'"],
+        "base-uri": ["'self'"],
+        "form-action": ["'self'"],
+        "frame-ancestors": ["'none'"],
+        "upgrade-insecure-requests": true
+      }
+    },
+    "cors": {
+      "allowedOrigins": [
+        "https://acelo.ai",
+        "https://www.acelo.ai",
+        "https://staging.acelo.ai"
+      ],
+      "allowedMethods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "allowedHeaders": [
+        "Content-Type",
+        "Authorization",
+        "x-client-info",
+        "apikey"
+      ],
+      "maxAge": 86400
+    },
+    "rateLimiting": {
+      "enabled": true,
+      "windowMs": 900000,
+      "maxRequests": 100,
+      "skipSuccessfulRequests": false,
+      "skipFailedRequests": false
+    }
+  },
+  "monitoring": {
+    "errorTracking": {
+      "enabled": true,
+      "sampleRate": 0.1
+    },
+    "performanceMonitoring": {
+      "enabled": true,
+      "sampleRate": 0.1
+    },
+    "securityEvents": {
+      "enabled": true,
+      "logFailedLogins": true,
+      "logSuspiciousActivity": true,
+      "alertThreshold": 10
+    }
+  },
+  "compliance": {
+    "gdpr": {
+      "enabled": true,
+      "cookieConsent": true,
+      "dataRetentionDays": 365
+    },
+    "ccpa": {
+      "enabled": true
+    },
+    "privacy": {
+      "privacyPolicyUrl": "https://acelo.ai/privacy",
+      "termsOfServiceUrl": "https://acelo.ai/terms",
+      "cookiePolicyUrl": "https://acelo.ai/cookies"
+    }
+  },
+  "authentication": {
+    "sessionTimeout": 3600,
+    "multiFactorAuth": {
+      "enabled": false,
+      "providers": ["totp", "sms"]
+    },
+    "passwordPolicy": {
+      "minLength": 8,
+      "requireUppercase": true,
+      "requireLowercase": true,
+      "requireNumbers": true,
+      "requireSymbols": true,
+      "maxAge": 90
+    }
+  },
+  "dataProtection": {
+    "encryption": {
+      "atRest": true,
+      "inTransit": true,
+      "algorithm": "AES-256"
+    },
+    "backup": {
+      "enabled": true,
+      "frequency": "daily",
+      "retentionDays": 30
+    },
+    "audit": {
+      "enabled": true,
+      "logLevel": "info",
+      "sensitiveDataMasking": true
+    }
+  }
+}
