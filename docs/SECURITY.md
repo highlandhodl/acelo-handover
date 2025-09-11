@@ -85,7 +85,7 @@ Acelo implements several security measures:
 
 For all security-related inquiries and reports:
 
-**Stuart McPherson**  
+**Stuart Martin**  
 Security Contact  
 [stuart@acelo.ai](mailto:stuart@acelo.ai)
 
