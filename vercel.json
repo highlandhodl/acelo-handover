@@ -102,11 +102,6 @@
       "permanent": true
     }
   ],
-  "functions": {
-    "app/api/*.js": {
-      "maxDuration": 30
-    }
-  },
   "regions": ["iad1"],
   "github": {
     "silent": true
