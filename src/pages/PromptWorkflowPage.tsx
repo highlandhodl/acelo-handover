@@ -340,16 +340,16 @@ export default function PromptWorkflowPage() {
                   </div>
                   <div className="space-y-3 flex-1">
                     <h3 className="font-semibold text-lg">How this prompt works</h3>
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                    <div className="prose prose-sm dark:prose-invert max-w-none break-words [&>*]:min-w-0 prose-pre:whitespace-pre-wrap prose-code:break-all prose-table:block prose-table:overflow-x-auto prose-img:max-w-full">
                       <ReactMarkdown 
                         components={{
-                          p: ({ children }) => <p className="mb-3 leading-relaxed text-foreground/80">{children}</p>,
+                          p: ({ children }) => <p className="mb-3 leading-relaxed text-foreground/80 break-words">{children}</p>,
                           h1: ({ children }) => <h1 className="text-lg font-semibold mb-3 text-foreground">{children}</h1>,
                           h2: ({ children }) => <h2 className="text-base font-semibold mb-2 text-foreground">{children}</h2>,
                           h3: ({ children }) => <h3 className="text-sm font-medium mb-2 text-foreground">{children}</h3>,
                           ul: ({ children }) => <ul className="mb-3 space-y-1 list-disc list-inside">{children}</ul>,
                           ol: ({ children }) => <ol className="mb-3 space-y-1 list-decimal list-inside">{children}</ol>,
-                          li: ({ children }) => <li className="text-foreground/80 leading-relaxed">{children}</li>,
+                          li: ({ children }) => <li className="text-foreground/80 leading-relaxed break-words">{children}</li>,
                           strong: ({ children }) => <strong className="font-medium text-foreground">{children}</strong>,
                         }}
                       >

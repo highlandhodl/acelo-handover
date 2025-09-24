@@ -191,11 +191,11 @@ export default function AutomationWorkflowPage() {
                   <ReactMarkdown>{run.output_data}</ReactMarkdown>
                 </div>
               ) : typeof run.output_data === 'object' ? (
-                <pre className="text-sm bg-muted p-4 rounded-md overflow-auto">
+                <pre className="text-sm bg-muted p-4 rounded-md overflow-auto whitespace-pre-wrap break-words">
                   {JSON.stringify(run.output_data, null, 2)}
                 </pre>
               ) : (
-                <div className="text-sm whitespace-pre-wrap">
+                <div className="text-sm whitespace-pre-wrap break-words">
                   {run.output_data}
                 </div>
               )}

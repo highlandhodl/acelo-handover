@@ -96,7 +96,7 @@ export default function ContextSelector({
             <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full min-w-[500px] p-0" align="start">
+        <PopoverContent className="w-full min-w-[500px] max-h-[80vh] overflow-auto p-0" align="start" side="bottom">
           <Command>
             <div className="flex items-center border-b px-3">
               <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
@@ -107,7 +107,12 @@ export default function ContextSelector({
                 className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
               />
             </div>
-            <ScrollArea className="max-h-[400px]">
+            <div
+              className="max-h-[65vh] overflow-auto overscroll-contain"
+              onWheel={(e) => {
+                e.stopPropagation()
+              }}
+            >
               <CommandEmpty>No contexts found.</CommandEmpty>
               {allowClear && selectedContextIds.length > 0 && (
                 <CommandGroup>
@@ -152,7 +157,7 @@ export default function ContextSelector({
                   </CommandItem>
                 ))}
               </CommandGroup>
-            </ScrollArea>
+            </div>
           </Command>
         </PopoverContent>
       </Popover>

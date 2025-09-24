@@ -269,8 +269,8 @@ export default function AutomationExecutionModal({
               </div>
 
               {showPreview && (
-                <div className="p-4 bg-muted rounded-lg">
-                  <pre className="text-xs overflow-x-auto">
+                <div className="p-4 bg-muted rounded-lg overflow-auto">
+                  <pre className="text-xs whitespace-pre-wrap break-words">
                     {JSON.stringify(generatePreviewData(), null, 2)}
                   </pre>
                 </div>

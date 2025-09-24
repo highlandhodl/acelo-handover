@@ -73,7 +73,7 @@ export default function PromptSelector({
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full min-w-[400px] p-0" align="start">
+      <PopoverContent className="w-full min-w-[400px] max-h-[80vh] overflow-auto p-0" align="start" side="bottom">
         <Command>
           <div className="flex items-center border-b px-3">
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
@@ -84,7 +84,12 @@ export default function PromptSelector({
               className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
-          <ScrollArea className="max-h-[300px]">
+          <div
+            className="max-h-[60vh] overflow-auto overscroll-contain"
+            onWheel={(e) => {
+              e.stopPropagation()
+            }}
+          >
             <CommandEmpty>No prompts found.</CommandEmpty>
             {allowClear && selectedPromptId && (
               <CommandGroup>
@@ -131,7 +136,7 @@ export default function PromptSelector({
                 </CommandItem>
               ))}
             </CommandGroup>
-          </ScrollArea>
+          </div>
         </Command>
       </PopoverContent>
     </Popover>

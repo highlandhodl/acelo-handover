@@ -94,25 +94,25 @@ export const PromptPreviewModal: React.FC<PromptPreviewModalProps> = ({
               </Button>
             </div>
             
-            <ScrollArea className="h-96 w-full rounded-lg border bg-muted/20 p-4">
-              <div className="prose dark:prose-invert prose-sm max-w-none">
+            <ScrollArea className="h-96 w-full rounded-lg border bg-muted/20 p-4 overflow-auto">
+              <div className="prose dark:prose-invert prose-sm max-w-none break-words [&>*]:min-w-0 prose-pre:whitespace-pre-wrap prose-code:break-all prose-table:block prose-table:overflow-x-auto prose-img:max-w-full">
                 <ReactMarkdown
                   components={{
-                    p: ({ children }) => <p className="mb-3 leading-relaxed text-foreground">{children}</p>,
+                    p: ({ children }) => <p className="mb-3 leading-relaxed text-foreground break-words">{children}</p>,
                     h1: ({ children }) => <h1 className="text-lg font-semibold mb-3 text-foreground">{children}</h1>,
                     h2: ({ children }) => <h2 className="text-base font-semibold mb-2 text-foreground">{children}</h2>,
                     h3: ({ children }) => <h3 className="text-sm font-medium mb-2 text-foreground">{children}</h3>,
                     ul: ({ children }) => <ul className="mb-3 space-y-1 list-disc list-inside">{children}</ul>,
                     ol: ({ children }) => <ol className="mb-3 space-y-1 list-decimal list-inside">{children}</ol>,
-                    li: ({ children }) => <li className="text-foreground/90 leading-relaxed">{children}</li>,
+                    li: ({ children }) => <li className="text-foreground/90 leading-relaxed break-words">{children}</li>,
                     strong: ({ children }) => <strong className="font-medium text-foreground">{children}</strong>,
                     code: ({ children }) => (
-                      <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground">
+                      <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground break-all">
                         {children}
                       </code>
                     ),
                     pre: ({ children }) => (
-                      <pre className="bg-muted p-3 rounded-lg overflow-x-auto text-sm font-mono text-foreground mb-3">
+                      <pre className="bg-muted p-3 rounded-lg overflow-x-auto whitespace-pre-wrap text-sm font-mono text-foreground mb-3">
                         {children}
                       </pre>
                     ),
